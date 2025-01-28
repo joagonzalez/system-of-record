@@ -1,0 +1,30 @@
+@startuml Directory Structure
+@startmindmap
+* engineering-sor
+** configs
+*** network
+**** params
+***** routing.yaml
+***** security.yaml
+**** versions.yaml
+*** software
+**** versions
+***** production.yaml
+***** staging.yaml
+**** dependencies.yaml
+*** hardware
+**** specs
+***** servers.yaml
+***** storage.yaml
+**** versions.yaml
+** schemas
+*** network-params.json
+*** software-versions.json
+*** hardware-specs.json
+** tests
+*** validation
+** api
+*** src
+*** docs
+@endmindmap
+@enduml

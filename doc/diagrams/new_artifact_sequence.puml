@@ -1,0 +1,38 @@
+@startuml Approval Workflow
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+|Engineer|
+start
+:Create branch;
+:Update YAML configs;
+:Create Pull Request;
+
+|CI/CD Pipeline|
+:Run YAML syntax check;
+:Validate against schemas;
+:Run custom tests;
+if (All checks pass?) then (yes)
+    :Notify approvers;
+else (no)
+    :Notify engineer;
+    stop
+endif
+
+|Approvers|
+if (Approve changes?) then (yes)
+    :Approve PR;
+else (no)
+    :Request changes;
+    :Notify engineer;
+    stop
+endif
+
+|CI/CD Pipeline|
+:Merge to main branch;
+:Deploy API updates;
+
+|External Systems|
+:Access updated configs;
+
+stop
+@enduml

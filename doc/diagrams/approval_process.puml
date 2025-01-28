@@ -1,0 +1,23 @@
+@startuml Validation Process
+start
+
+:Receive PR with config changes;
+
+fork
+    :YAML Syntax Check;
+fork again
+    :Schema Validation;
+fork again
+    :Custom Tests;
+end fork
+
+if (All validations passed?) then (yes)
+    :Mark checks as successful;
+    :Enable merge button;
+else (no)
+    :Mark checks as failed;
+    :Block merge;
+endif
+
+stop
+@enduml

@@ -1,0 +1,22 @@
+@startuml API Request Flow
+participant "External System" as ext
+participant "API Service" as api
+participant "Git Repository" as git
+participant "Cache Layer" as cache
+
+ext -> api: GET /api/network/params/routing
+activate api
+
+alt Cache Hit
+    api -> cache: Check cache
+    cache -> api: Return cached data
+else Cache Miss
+    api -> git: Read YAML file
+    git -> api: Return file content
+    api -> api: Parse YAML
+    api -> cache: Store in cache
+end
+
+api -> ext: Return JSON response
+deactivate api
+@enduml

@@ -1,0 +1,23 @@
+@startuml Component Overview
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(engineer, "Engineer", "Creates/updates configurations")
+Person(approver, "Approver", "Reviews and approves changes")
+
+System_Boundary(sor, "Engineering SOR") {
+    Container(git_repo, "Git Repository", "GitHub", "Stores YAML configurations")
+    Container(cicd, "CI/CD Pipeline", "GitHub Actions", "Validates changes and manages workflows")
+    Container(api_service, "API Service", "FastAPI", "Serves configuration data")
+    Container(validation, "Validation Service", "Python", "Validates YAML against schemas")
+}
+
+System_Ext(external_systems, "External Systems", "Consume configuration data")
+
+Rel(engineer, git_repo, "Creates/updates configs", "git push")
+Rel(approver, git_repo, "Reviews changes", "PR review")
+Rel(git_repo, cicd, "Triggers", "on PR/merge")
+Rel(cicd, validation, "Uses")
+Rel(api_service, git_repo, "Reads configs")
+Rel(external_systems, api_service, "Requests data", "REST API")
+
+@enduml
